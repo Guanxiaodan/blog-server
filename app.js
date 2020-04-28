@@ -7,4 +7,4 @@ var server = http.createServer(function(request, response){
 })
 
 server.listen(2243)
-console.log('服务器在2243端口运行...')
+console.log('服务器在2243端口运行....')
