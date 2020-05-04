@@ -1,9 +1,9 @@
 var express = require('express')
-// var bodyParser = require('body-parser') 
+var bodyParser = require('body-parser') 
 
 var server = express()
-// server.use(bodyParser.urlencoded({extended:false}))
-// server.use(bodyParser.json())
+server.use(bodyParser.urlencoded({extended:false}))
+server.use(bodyParser.json())
 // server.all('*', function(req, res, next) {
 //   res.header("Access-Control-Allow-Origin", "*");
 //   res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
@@ -19,8 +19,9 @@ server.get('/api/list',(request, response)=>{
 })
 
 //TODO： 浏览器请求不到，报404，但postman可以。不知道为什么
-server.post('/api/fourth', (request, response)=>{
-  console.log('有人访问/api/fourth接口', request.data)
+server.post('/api/fourth', (req, response)=>{
+  // console.log('有人访问/api/fourth接口', JSON.stringify(req.body))
+  console.log('有人访问/api/fourth接口', req.body)
   response.send('这个是express服务器返回的内容--POST请求')
 })
 
