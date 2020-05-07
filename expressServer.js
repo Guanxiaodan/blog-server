@@ -26,23 +26,31 @@ connection.connect();
 
 // SELECT * FROM  guanxdBlog
 
-connection.query('SELECT * FROM start', function(err, rows, fields) {
-  if (err) {console.log('数据库查询错误了',err);}
-  console.log('查询结果: ', rows);
-});
+// connection.query('SELECT title FROM start', function(err, rows, fields) {
+//   if (err) {console.log('数据库查询错误了',err);}
+//   console.log('查询结果: ', rows);
+// });
 
-connection.end();
+// connection.end();
 
 server.get('/api/list',(request, response)=>{
   console.log('有人访问/api/list接口')
-  response.send('这个是express服务器返回的内容--GET请求')
+  connection.query('SELECT blogID,title FROM start', function(err, rows, fields) {
+    if (err) {console.log('数据库查询错误了',err);}
+    // console.log('查询结果: ', rows);
+    response.send(rows)
+  });
 })
 
 //TODO： 浏览器请求不到，报404，但postman可以。不知道为什么
 server.post('/api/fourth', (req, response)=>{
   // console.log('有人访问/api/fourth接口', JSON.stringify(req.body))
   console.log('有人访问/api/fourth接口', req.body)
-  response.send('这个是express服务器返回的内容--POST请求')
+  connection.query(`SELECT startTime,editTime,readNum FROM start WHERE blogID=${req.body.blogID}`, function(err, rows, fields) {
+    if (err) {console.log('数据库查询错误了',err);}
+    console.log('查询结果: ', rows);
+    response.send(rows)
+  });
 })
 
 server.listen(7868)
