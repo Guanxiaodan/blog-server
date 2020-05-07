@@ -1,5 +1,6 @@
 var express = require('express')
 var bodyParser = require('body-parser') 
+var mysql = require('mysql')
 
 var server = express()
 server.use(bodyParser.urlencoded({extended:false}))
@@ -12,6 +13,25 @@ server.use(bodyParser.json())
 //   if(req.method=="OPTIONS") res.send(200);/*让options请求快速返回*/
 //   else  next();
 // });
+
+var connection = mysql.createConnection({
+  host:'localhost',
+  user:'root',
+  password:'gxd?0921',
+  port: 3306,
+  database:'guanBlog'
+})
+
+connection.connect();
+
+// SELECT * FROM  guanxdBlog
+
+connection.query('SELECT * FROM start', function(err, rows, fields) {
+  if (err) {console.log('数据库查询错误了',err);}
+  console.log('查询结果: ', rows);
+});
+
+connection.end();
 
 server.get('/api/list',(request, response)=>{
   console.log('有人访问/api/list接口')
